@@ -12,13 +12,17 @@ class List extends React.Component {
       loading: false,
       currencies: [],
       error: null,
+      totalPages: 0,
+      page: 2,
     };
   }
 
   componentDidMount() {
     this.setState({ loading: true });
 
-    fetch(`${API_URL}/cryptocurrencies?page=1&perPage=20`)
+    const { page } = this.state;
+
+    fetch(`${API_URL}/cryptocurrencies?page=${page}&perPage=20`)
       .then(handleResponse)
       .then((data) => {
         this.setState({
