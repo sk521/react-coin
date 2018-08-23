@@ -40,7 +40,7 @@ class Search extends React.Component {
   }
 
   renderSearchResults() {
-    const { searchResults, searchQuery } = this.state;
+    const { searchResults, searchQuery, loading } = this.state;
 
     if (!searchQuery) {
       return '';
@@ -61,13 +61,15 @@ class Search extends React.Component {
       );
     }
 
-    return (
-      <div className="Search-result-container">
-        <div className="Search-no-result">
-          No results found.
+    if (!loading) {
+      return (
+        <div className="Search-result-container">
+          <div className="Search-no-result">
+            No results found.
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 
   render() {
