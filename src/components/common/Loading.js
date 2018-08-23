@@ -2,7 +2,9 @@ import React from 'react';
 import './Loading.css';
 
 const Loading = (props) => {
-  return <div className="Loading" />
+  const { width, height } = props;
+
+  return <div className="Loading" style={{ width, height   }} />
 }
 
 export default Loading;

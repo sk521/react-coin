@@ -41,7 +41,10 @@ class Search extends React.Component {
         <input className="Search-input" type="text" placeholder="Currency Name" onChange={this.handleChange} />
 
         <div className="Search-loading">
-          <Loading />
+          <Loading
+            width='12px'
+            height='12px'
+          />
         </div>
       </div>
     );
