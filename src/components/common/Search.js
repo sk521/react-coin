@@ -10,6 +10,7 @@ class Search extends React.Component {
 
     this.state = {
       searchQuery: "",
+      loading: false,
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -25,14 +26,19 @@ class Search extends React.Component {
       return '';
     }
 
+    this.setState({ loading: true });
+
     fetch(`${API_URL}/autocomplete?searchQuery=${searchQuery}`)
       .then(handleResponse)
       .then((result) => {
         console.log(result);
+
+        this.setState({ loading: false });
       })
   }
 
   render() {
+    const { loading } = this.state;
     return (
       <div className="Search">
 
@@ -40,12 +46,13 @@ class Search extends React.Component {
 
         <input className="Search-input" type="text" placeholder="Currency Name" onChange={this.handleChange} />
 
-        <div className="Search-loading">
-          <Loading
-            width='12px'
-            height='12px'
-          />
-        </div>
+        {loading &&
+          <div className="Search-loading">
+            <Loading
+              width='12px'
+              height='12px'
+            />
+          </div>}
       </div>
     );
   }
