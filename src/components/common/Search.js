@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import Loading from './Loading';
 import { API_URL } from '../../config';
 import { handleResponse } from '../../helper';
@@ -15,6 +16,7 @@ class Search extends React.Component {
     }
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleRedirect = this.handleRedirect.bind(this);
   }
 
   handleChange(event) {
@@ -39,6 +41,18 @@ class Search extends React.Component {
       })
   }
 
+  handleRedirect(currencyId) {
+    // Clear input value and close autocomplete container
+    // By clearing searchQuery state
+
+    this.setState({
+      searchQuery: '',
+      searchResults: [],
+    });
+
+    this.props.history.push(`/currency/${currencyId}`);
+  }
+
   renderSearchResults() {
     const { searchResults, searchQuery, loading } = this.state;
 
@@ -53,6 +67,7 @@ class Search extends React.Component {
             <div
               key={result.id}
               className="Search-result"
+              onClick={() => this.handleRedirect(result.id)}
             >
               {result.name} ({result.symbol})
             </div>
@@ -73,13 +88,19 @@ class Search extends React.Component {
   }
 
   render() {
-    const { loading } = this.state;
+    const { loading, searchQuery } = this.state;
     return (
       <div className="Search">
 
         <span className="Search-icon" />
 
-        <input className="Search-input" type="text" placeholder="Currency Name" onChange={this.handleChange} />
+        <input
+          className="Search-input"
+          type="text"
+          placeholder="Currency Name"
+          onChange={this.handleChange}
+          value={searchQuery}
+        />
 
         {loading &&
           <div className="Search-loading">
@@ -95,4 +116,4 @@ class Search extends React.Component {
   }
 }
 
-export default Search;
+export default withRouter(Search);
