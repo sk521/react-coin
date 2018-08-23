@@ -1,4 +1,5 @@
 import React from 'react';
+import Loading from './Loading';
 import { API_URL } from '../../config';
 import { handleResponse } from '../../helper';
 import './Search.css';
@@ -15,16 +16,16 @@ class Search extends React.Component {
   }
 
   handleChange(event) {
-    const inputValue = event.target.value;
+    const searchQuery = event.target.value;
 
-    this.setState({ searchQuery: inputValue });
+    this.setState({ searchQuery });
 
     // If searchQuery isn't present, dont send request to server
-    if (!inputValue) {
+    if (!searchQuery) {
       return '';
     }
 
-    fetch(`${API_URL}/autocomplete?searchQuery=${inputValue}`)
+    fetch(`${API_URL}/autocomplete?searchQuery=${searchQuery}`)
       .then(handleResponse)
       .then((result) => {
         console.log(result);
@@ -33,9 +34,16 @@ class Search extends React.Component {
 
   render() {
     return (
-      <form>
-        <input onChange={this.handleChange} />
-      </form>
+      <div className="Search">
+
+        <span className="Search-icon" />
+
+        <input className="Search-input" type="text" placeholder="Currency Name" onChange={this.handleChange} />
+
+        <div className="Search-loading">
+          <Loading />
+        </div>
+      </div>
     );
   }
 }
